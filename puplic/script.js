@@ -1,15 +1,9 @@
-// for the canvas element:
-// mousedown
-// mousemove
-// mouseup
 console.log("script is linked");
 (function () {
     var canvas = $("#canvas");
     var ctx = document.getElementById("canvas").getContext("2d");
     var x;
     var y;
-
-    //later I have to hide the input lookup >>toDataURL
 
     canvas.on("mousedown", (e) => {
         console.log("mouse is down");
@@ -33,12 +27,12 @@ console.log("script is linked");
         });
     });
 
-    $("#sub_btn").on("click", () => {
-        console.log("submit button was clicked :) ");
-        const firstName = $(`input[name = "first"]`).val();
-        const lastName = $(`input[name = "last"]`).val();
-        console.log("firstName: ", firstName);
-        console.log("lastName: ", lastName);
-        console.log("hiddenInput: ", `$("input[name = 'hiddenInput']")`);
-    });
+    // $("#sub_btn").on("click", () => {
+    //     console.log("submit button was clicked :) ");
+    //     const firstName = $(`input[name = "first"]`).val();
+    //     const lastName = $(`input[name = "last"]`).val();
+    //     console.log("firstName: ", firstName);
+    //     console.log("lastName: ", lastName);
+    //     console.log("hiddenInput: ", `$("input[name = 'hiddenInput']")`);
+    // });
 })();
