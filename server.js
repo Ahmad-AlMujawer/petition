@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const db = require("./db");
+const bc = require("./bc");
 const hb = require("express-handlebars");
 const cookieSession = require("cookie-session");
 
@@ -23,11 +24,23 @@ app.use(express.static("./puplic"));
 //////////////////////////     ROUTES      ///////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
+app.get("/register", (req, res) => {
+    res.render("register", {
+        layout: "main",
+    });
+});
+
+app.get("/login", (req, res) => {
+    res.render("login", {
+        layout: "main",
+    });
+});
+
 app.get("/", (req, res) => {
     if (req.session.sigId) {
         res.redirect("/thanks");
     } else {
-        res.redirect("/petition");
+        res.redirect("/register");
     }
 });
 
@@ -76,8 +89,35 @@ app.get("/logout", (req, res) => {
     res.redirect("/petition");
 });
 ///////////////////////POST ROUTS///////////////////////////
+app.post("/register", (req, res) => {
+    const { first, last, email, password } = req.body;
+
+    return bc
+        .hash(password)
+        .then((hashedPass) => {
+            db.register(first, last, email, hashedPass)
+                .then((results) => {
+                    req.session.userId = results.rwos[0].id;
+                    res.redirect("/petition");
+                    // res.redirect("/profile"); add this later
+                })
+
+                .catch((err) => {
+                    console.log("error in POST /register in db.register", err);
+                    res.render("register");
+                });
+        })
+        .catch((err) => {
+            console.log("error in  hash", err);
+            res.render("register", {
+                layout: "main",
+                error: "please sign up",
+            });
+        });
+});
+
 app.post("/petition", (req, res) => {
-    db.addSigner(req.body.first, req.body.last, req.body.hiddenInput)
+    db.addSigner(req.session.userId, req.body.hiddenInput)
         .then((results) => {
             req.session.sigId = results.rows[0].id;
             res.redirect("/thanks");
