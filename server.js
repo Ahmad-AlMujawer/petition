@@ -22,8 +22,15 @@ app.use(
 
 app.use(express.static("./puplic"));
 //////////////////////////////////////////////////////////////////////////
-//////////////////////////     ROUTES      ///////////////////////////////
+//////////////////////////     GET ROUTES      ///////////////////////////
 //////////////////////////////////////////////////////////////////////////
+app.get("/", (req, res) => {
+    if (req.session.sigId) {
+        res.redirect("/login");
+    } else {
+        res.redirect("/register");
+    }
+});
 
 app.get("/register", (req, res) => {
     res.render("register", {
@@ -42,13 +49,20 @@ app.get("/profile", (req, res) => {
         layout: "main",
     });
 });
-
-app.get("/", (req, res) => {
-    if (req.session.sigId) {
-        res.redirect("/login");
-    } else {
-        res.redirect("/register");
-    }
+app.get("/edit", (req, res) => {
+    db.getUser(req.session.userId)
+        .then(({ rows }) => {
+            res.render("edit", {
+                layout: "main",
+                rows,
+            });
+        })
+        .catch((err) => {
+            console.log("error in db.getUser", err);
+            res.render("edit", {
+                message: true,
+            });
+        });
 });
 
 app.get("/petition", (req, res) => {
@@ -92,26 +106,28 @@ app.get("/signers", (req, res) => {
     }
 });
 
-// app.get("/signers/:city", (req, res) => {
-//     const { city } = req.params;
-//     db.getUsersByCity(city)
-//         .then(({ rows }) => {
-//             res.render("city", {
-//                 layout: "main",
-//                 city: "city",
-//                 rows,
-//             });
-//         })
-//         .catch((err) => {
-//             console.log("err in signers:city: ", err);
-//         });
-// });
+app.get("/signers/:city", (req, res) => {
+    const { city } = req.params;
+    db.getUsersByCity(city)
+        .then(({ rows }) => {
+            res.render("city", {
+                layout: "main",
+                city: "city",
+                rows,
+            });
+        })
+        .catch((err) => {
+            console.log("err in signers:city: ", err);
+        });
+});
 ////  "/logout" routs to clear the cookie///
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/register");
 });
-///////////////////////POST ROUTS///////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////     POST ROUTES      //////////////////////////
+//////////////////////////////////////////////////////////////////////////
 app.post("/register", (req, res) => {
     const { first, last, email, password } = req.body;
 
@@ -167,7 +183,13 @@ app.post("/login", (req, res) => {
 
 app.post("/profile", (req, res) => {
     const { age, city, homepage } = req.body;
-    const userId = req.session.id;
+    const userId = req.session.userId;
+    console.log(("req.session", req.session));
+    // if (homepage.startsWith("http://")) {
+    //     return homepage;
+    // } else {
+    //     return null;
+    // }
     db.addProfile(age, city, homepage, userId)
         .then(() => {
             res.redirect("/petition");
@@ -175,10 +197,12 @@ app.post("/profile", (req, res) => {
         .catch((err) => {
             console.log("erro in POST profile: ", err);
             res.render("profile", {
-                error: "Please try again",
+                error: "Please try again!",
             });
         });
 });
+
+app.post("/edit", (req, res) => {});
 
 app.post("/petition", (req, res) => {
     db.addSigner(req.session.userId, req.body.hiddenInput)
