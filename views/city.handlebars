@@ -1,12 +1,12 @@
 <h1>All signers from {{city}} </h1>
 <ul>
-    {{#signers}}
+    {{#rows}}
         <li>
             {{first}}
             {{last}}
-            ({{#if age}}
+            {{#if age}}
                 {{age}}
             {{/if}}
         </li>
-    {{/signers}}
+    {{/rows}}
 </ul>

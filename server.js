@@ -120,7 +120,7 @@ app.get("/signers/:city", (req, res) => {
         .then(({ rows }) => {
             res.render("city", {
                 layout: "main",
-                city: "city",
+                city: city,
                 rows,
             });
         })
