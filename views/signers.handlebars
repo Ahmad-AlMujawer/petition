@@ -1,6 +1,16 @@
 <p>These people have already singed the petition</p>
-{{#signers}}
-    <ul>
-        <li>{{first}} {{last}} </li>
-    </ul>
-{{/signers}}
+<ul>
+    {{#signers}}
+        <li>
+            {{#if homepage}}
+                <a href={{homepage}}>{{first}}>{{last}}></a>
+            {{else}}
+                {{first}}
+                {{last}}
+            {{/if}}
+            {{#if age}}
+                ({{age}},{{city}})
+            {{/if}}
+        </li>
+    {{/signers}}
+</ul>

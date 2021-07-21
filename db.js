@@ -1,7 +1,17 @@
 const spicedPg = require("spiced-pg");
-var db = spicedPg("postgres:postgres:postgres@localhost:5432/petition"); //return an object has query method that allowed us to talk to the database
+const db = spicedPg(
+    process.env.DATABASE_URL ||
+        "postgres:postgres:postgres@localhost:5432/petition"
+); //return an object has query method that allowed us to talk to the database
 module.exports.getSigners = () => {
-    return db.query(`SELECT * FROM signatures`);
+    return db.query(
+        `SELECT first, last, age, city, homepage FROM users 
+        JOIN signatures 
+        ON users.id = signatures.user_id
+        LEFT JOIN profiles
+        ON users.id = profiles.user_id
+        `
+    );
 };
 
 module.exports.addSigner = (user_id, signature) => {
@@ -31,5 +41,25 @@ module.exports.findSignature = (id) => {
         `SELECT signature FROM signatures
                 WHERE user_id = $1`,
         [id]
+    );
+};
+
+// module.exports.getUsersByCity = (city) => {
+//     return db.query(
+//         `SELECT first, last, age, city, homepage FROM users
+//         JOIN signatures ON users.id = signatures.user_id
+//         LEFT JOIN profiles ON users.id = profiles.user_id
+//         WHERE LOWER(city) = LOWER($1)
+//         `,
+//         [city]
+//     );
+// };
+
+module.exports.addProfile = (age, city, homepage, user_id) => {
+    return db.query(
+        `INSERT INTO profiles(age, city, homepage, user_id)
+         VALUES ($1, $2, $3, $4) RETURNING id
+        `,
+        [age, city, homepage, user_id]
     );
 };

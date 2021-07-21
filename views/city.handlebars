@@ -1,0 +1,12 @@
+<h1>All signers from {{city}} </h1>
+<ul>
+    {{#signers}}
+        <li>
+            {{first}}
+            {{last}}
+            ({{#if age}}
+                {{age}}
+            {{/if}}
+        </li>
+    {{/signers}}
+</ul>

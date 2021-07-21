@@ -1,0 +1,54 @@
+<header>
+    <img class="icon" src="/dog-icon.png" />
+    <nav>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/petition">Petition</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </nav>
+</header>
+<div id="edit" class="content">
+    <h1><span class="title thin"> Edit</span></h1>
+    <p><br /></p>
+    {{#if message}}
+        <p class="errorMessage"><span class="highlight center">Uh oh, something
+                went wrong. Please try again!</span></p>
+    {{/if}}
+    <form action="" method="POST">
+        {{#rows}}
+            <label for="firstName">First Name</label>
+            <input type="text" id="first" name="first" value="{{first}}" />
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" value="{{last}}" />
+            <label for="emailAddress">Email Address</label>
+            <input
+                type="email"
+                id="emailAddress"
+                name="emailAddress"
+                value="{{email}}"
+            />
+            <label for="userPassword">Password</label>
+            <input id="userPassword" type="password" name="userPassword" />
+            <label for="age">Age</label>
+            <input
+                type="number"
+                id="age"
+                name="age"
+                max="120"
+                min="14"
+                value="{{age}}"
+            />
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" value="{{city}}" />
+            <label for="homepage">Homepage</label>
+            <input
+                type="text"
+                id="homepage"
+                name="homepage"
+                placeholder="https://example.com"
+                value="{{homepage}}"
+            />
+        {{/rows}}
+        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+        <button name="">Update</button>
+    </form>
+</div>
