@@ -202,7 +202,9 @@ app.post("/profile", (req, res) => {
         });
 });
 
-app.post("/edit", (req, res) => {});
+app.post("/edit", (req, res) => {
+    const { first, last, email, password, age, city, homepage } = req.body;
+});
 
 app.post("/petition", (req, res) => {
     db.addSigner(req.session.userId, req.body.hiddenInput)

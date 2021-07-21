@@ -2,7 +2,7 @@ const spicedPg = require("spiced-pg");
 const db = spicedPg(
     process.env.DATABASE_URL ||
         "postgres:postgres:postgres@localhost:5432/petition"
-); //return an object has query method that allowed us to talk to the database
+);
 module.exports.getSigners = () => {
     return db.query(
         `SELECT first, last, age, city, homepage FROM users 
@@ -95,8 +95,7 @@ module.exports.edit_usersTable = (
 
 module.exports.edit_profilesTable = (age, city, homepage, user_id) => {
     return db.query(
-        `
-        INSERT INTO users_profile(age, city, homepage, user_id)
+        `INSERT INTO users_profile(age, city, homepage, user_id)
         VALUES ($1, $2, $3, $4)  
         ON CONFLICT (user_id)
         DO UPDATE SET age=$1, city=$2, url=$3, user_id=$4;
