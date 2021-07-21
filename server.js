@@ -8,13 +8,21 @@ const cookieSession = require("cookie-session");
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 
+let sessionSecret;
+
+if (process.env.NODE_ENV == "production") {
+    sessionSecret = process.env.SESSION_SECRET;
+} else {
+    sessionSecret = require("./secrets.json").SESSION_SECRET;
+}
+
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////     MIDDELWARE      ///////////////////////////
 //////////////////////////////////////////////////////////////////////////
 app.use(express.urlencoded({ extended: false }));
 app.use(
     cookieSession({
-        secret: `cookieSession`,
+        secret: `${sessionSecret}`,
         maxAge: 1000 * 60 * 60 * 24 * 14,
         sameSite: true,
     })
@@ -220,6 +228,6 @@ app.post("/petition", (req, res) => {
         });
 });
 
-app.listen(8080, () => {
+app.listen(process.env.PORT || 8080, () => {
     console.log("server listning on port 8080");
 });
