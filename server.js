@@ -16,15 +16,15 @@ if (process.env.NODE_ENV == "production") {
     sessionSecret = require("./secrets.json").SESSION_SECRET;
 }
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////     MIDDELWARE      ///////////////////////////
-//////////////////////////////////////////////////////////////////////////
 const {
     requireLoggedInUser,
     requireSignature,
     requireNoSignature,
     requireLoggedOutUser,
 } = require("./middlewares");
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////     MIDDELWARE      ///////////////////////////
+//////////////////////////////////////////////////////////////////////////
 app.use(express.urlencoded({ extended: false }));
 app.use(
     cookieSession({
@@ -61,7 +61,7 @@ app.post("/register", requireLoggedOutUser, (req, res) => {
             db.register(first, last, email, hashedPass)
                 .then(({ rows }) => {
                     req.session.userId = rows[0].id;
-                    // res.redirect("/petition");
+
                     res.redirect("/profile");
                 })
 
@@ -85,48 +85,42 @@ app.get("/login", requireLoggedOutUser, (req, res) => {
         layout: "main",
     });
 });
-
 app.post("/login", requireLoggedOutUser, (req, res) => {
     const { email, password } = req.body;
-    console.log("im getting email info: ", email);
-    db.getUserByEmail(email)
-        .then(({ rows }) => {
-            if (rows.length === 0) {
-                console.log("login143");
-                res.render("login", {
-                    layout: "main",
-                    error: "no user found",
-                });
-                return;
-            }
-            compare(password, rows[0].hashed_password)
-                .then((checkPw) => {
-                    if (checkPw === true) {
-                        req.session.userId = rows[0].id;
-                        res.redirect("/petition");
-                    } else {
-                        console.log("login155");
+    hash(password).then((hashedPw) => {
+        console.log("hasedPw:  ", hashedPw);
+        db.getUserByEmail(email)
+            .then(({ rows }) => {
+                console.log("Data from getU: ", rows);
+                compare(password, rows[0].hashed_password)
+                    .then((checkPw) => {
+                        console.log("data from get userByeEmail: ", rows);
+                        if (checkPw === true) {
+                            req.session.userId = rows[0].userid;
+                            req.session.sigId = rows[0].sigid;
 
-                        res.render("login", {
-                            layout: "main",
-                            error: "no user found",
-                        });
-                    }
-                })
-                .catch((err) => {
-                    console.log("error in POST /login route compare: ", err);
-                    res.render("login", {
-                        message: true,
+                            if (req.session.sigId) {
+                                res.redirect("/thanks");
+                            } else {
+                                res.redirect("/petition");
+                            }
+                        } else {
+                            res.render("login", {
+                                error: "Please use a vaild password",
+                            });
+                        }
+                    })
+                    .catch((err) => {
+                        console.log("error in compare:", err);
                     });
+            })
+            .catch((err) => {
+                console.log("err in hash:", err);
+                res.render("login", {
+                    error: "Please use a vaild email",
                 });
-        })
-
-        .catch((err) => {
-            console.log("error in POST db.getUserInfo: ", err);
-            res.render("login", {
-                message: true,
             });
-        });
+    });
 });
 
 //-------------------------------------------------------------
@@ -138,14 +132,26 @@ app.get("/profile", requireNoSignature, (req, res) => {
 });
 
 app.post("/profile", requireNoSignature, (req, res) => {
-    const { age, city, homepage } = req.body;
+    let { age, city, homepage } = req.body;
     const userId = req.session.userId;
     console.log(("req.session", req.session));
-    // if (homepage.startsWith("http://") || homepage.startsWith("https://")) {
-    //     return homepage;
-    // } else {
-    //     return null;
+    // if (homepage == "") {
+    //     homepage = null;
+    // } else if (
+    //     !homepage.startsWith("https://") ||
+    //     !homepage.startsWith("http://")
+    // ) {
+    //     return res.render("profile", {
+    //         layout: "main",
+    //         error: "URL NOT VALID",
+    //     });
     // }
+    if (req.body.homepage && !req.body.homepage.startsWith("http")) {
+        return res.render("profile", {
+            layout: "main",
+            error: "Your homepage should start with 'https://'. Please try again.",
+        });
+    }
     return db
         .addProfile(age, city, homepage, userId)
         .then(() => {
@@ -199,10 +205,9 @@ app.post("/edit", (req, res) => {
             req.session.userId
         ).catch((err) => {
             console.log("error: ", err);
-            res.render("profile/edit", {
+            res.render("edit", {
                 error: true,
             });
-            // console.log("check: ", req.body, typeof req.session.userId);
         });
     }
     db.edit_profilesTable(
@@ -231,11 +236,11 @@ app.get("/thanks", requireSignature, (req, res) => {
             .then(({ rows }) => {
                 db.findSignature(req.session.userId).then((result) => {
                     let sigImg = result.rows[0].signature;
+
                     res.render("thanks", {
                         layout: "main",
                         countSigners: rows.length,
                         signature: sigImg,
-                        first: req.session.first,
                     });
                 });
             })
@@ -307,6 +312,7 @@ app.get("/signers", requireSignature, (req, res) => {
 
 app.get("/signers/:city", requireSignature, (req, res) => {
     const { city } = req.params;
+    console.log("city: ", city);
     db.getUsersByCity(city)
         .then(({ rows }) => {
             res.render("city", {

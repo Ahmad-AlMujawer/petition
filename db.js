@@ -28,10 +28,14 @@ module.exports.register = (first, last, email, hashed_password) => {
         [first, last, email, hashed_password]
     );
 };
+
 module.exports.getUserByEmail = (email) => {
     return db.query(
-        `SELECT * FROM users
-            WHERE email = $1`,
+        `SELECT users.id AS userid, signatures.id AS sigid, users.hashed_password
+        FROM users
+        LEFT JOIN signatures
+        ON users.id = signatures.user_id 
+        WHERE email = $1`,
         [email]
     );
 };

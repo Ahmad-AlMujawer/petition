@@ -28,6 +28,7 @@ nav li {
 nav li a {
     text-decoration: none;
     border-bottom: solid;
+    color: #000;
 }
 
 #canvas {
@@ -94,4 +95,19 @@ button:hover {
     text-decoration: none;
     margin: 20px;
     font-size: 18px;
+}
+#pet_button {
+    background-color: azure;
+    font-size: 16px;
+    text-transform: uppercase;
+    border-bottom: solid;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 100px;
+    margin-top: 35px;
+}
+#thanks_page {
+    display: grid;
+    justify-content: center;
+    text-align: center;
 }
