@@ -1,12 +1,24 @@
-<div>
-    <img src="" alt="" />
-    <h2>Thank you for your support 🌺</h2>
-    <img src="{{signature}}" alt="signature" />
-    <a href="/signers">See all
-        {{countSigners}}
-        signers 😃
-    </a>
-</div>
+<body id="thanks_body">
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="./script.js"></script>
+    <div id="thanks_page">
+
+        <h2>Thank you for your support {{first}}🌺</h2>
+        <img
+            src="{{signature}}"
+            alt="signature"
+            style="background-color: antiquewhite; border-radius: 50%"
+        />
+        <a href="/signers">See all
+            {{countSigners}}
+            signers 😃
+        </a>
+    </div>
+
+    <form method="post">
+        <button name="deleteSignature">Delete your signature</button>
+        <button name="editProfile">Edit your profile</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="./script.js"></script>
+</body>

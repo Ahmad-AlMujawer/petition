@@ -1,12 +1,14 @@
-<h1>All signers from {{city}} </h1>
-<ul>
-    {{#rows}}
-        <li>
-            {{first}}
-            {{last}}
-            {{#if age}}
-                {{age}}
-            {{/if}}
-        </li>
-    {{/rows}}
-</ul>
+<form method="post">
+    <h1>All signers from {{city}} </h1>
+    <ul>
+        {{#rows}}
+            <li>
+                {{first}}
+                {{last}}
+                {{#if age}}
+                    {{age}}
+                {{/if}}
+            </li>
+        {{/rows}}
+    </ul>
+</form>

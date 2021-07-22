@@ -1,15 +1,16 @@
-<form method="post">
-    <input
-        type="email"
-        name="email"
-        id="email"
-        placeholder="Enter your email adress"
-    />
+<form id="login_form" method="post">
+    <input type="email" name="email" id="email" placeholder="Email adress" />
     <input
         type="password"
         name="password"
         id="password"
-        placeholder="Enter your password"
+        placeholder="Password"
     />
     <button type="submit">Login</button>
+    <h3>{{error}}</h3>
 </form>
+<div id="login_img"><img
+        class="login_img"
+        src="/images/login.jpg"
+        alt="smiley dog"
+    /></div>

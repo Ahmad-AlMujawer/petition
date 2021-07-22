@@ -1,18 +1,22 @@
-<p>These people have already singed the petition</p>
+<div id="signers">
+    <h2>These people have already singed the petition</h2>
 
-<ul>
-    {{#signers}}
-        <li>
-            {{#if homepage}}
-                <a href={{homepage}}>{{first}} {{last}}</a>
-            {{else}}
-                {{first}}
-                {{last}}
-            {{/if}}
-            {{#if age}}
-                ({{age}},
-                {{city}})
-            {{/if}}
-        </li>
-    {{/signers}}
-</ul>
+    <ul>
+        {{#signers}}
+            <li>
+                {{#if homepage}}
+                    <a href={{homepage}}>{{first}} {{last}}</a>
+                {{else}}
+                    {{first}}
+                    {{last}}
+                {{/if}}
+                {{#if age}}
+                    <a href="{{city}}">
+                        ({{age}},
+                        {{city}})
+                    </a>
+                {{/if}}
+            </li>
+        {{/signers}}
+    </ul>
+</div>

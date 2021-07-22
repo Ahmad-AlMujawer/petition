@@ -1,6 +1,97 @@
+* {
+    font-family: fantasy;
+}
+body {
+    background-color: azure;
+}
+#register_body {
+    background: url("/images/register.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#thanks_body {
+    background: url("/images/thanks.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+nav {
+    display: flex;
+    list-style-type: none;
+    justify-content: flex-end;
+    text-transform: uppercase;
+}
+nav li {
+    margin-right: 25px;
+    margin-bottom: 25px;
+    padding: 10px;
+}
+nav li a {
+    text-decoration: none;
+    border-bottom: solid;
+}
+
 #canvas {
-    border: 2px dotted #000;
-    border-radius: 15px;
+    /* border: 2px dotted #000;
+    border-radius: 15px; */
+    border-bottom: solid;
+    background-color: antiquewhite;
     color: #000;
     cursor: crosshair;
+    margin-right: 20px;
+    margin-left: 50px;
+}
+form {
+    display: flex;
+    justify-content: flex-start;
+}
+#edit_form {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    margin-left: 50px;
+}
+#edit_form label {
+    padding-left: 10px;
+    margin-top: 10px;
+}
+#register_form {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    margin-left: 50px;
+}
+div {
+    margin: 30px;
+}
+
+input {
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+}
+button {
+    background-color: azure;
+    font-size: 16px;
+    text-transform: uppercase;
+    border-bottom: solid;
+    border-radius: 50%;
+    cursor: pointer;
+}
+button:hover {
+    color: red;
+}
+#login_img {
+    display: flex;
+    justify-content: center;
+}
+.login_img {
+    object-fit: cover;
+    width: 60%;
+    border-radius: 50%;
+}
+
+#signers a {
+    text-decoration: none;
+    margin: 20px;
+    font-size: 18px;
 }

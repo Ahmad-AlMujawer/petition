@@ -43,6 +43,15 @@ module.exports.findSignature = (id) => {
         [id]
     );
 };
+module.exports.deleteSignature = (userId) => {
+    return db.query(
+        `DELETE 
+        FROM signatures 
+        WHERE user_id = $1
+        `,
+        [userId]
+    );
+};
 
 module.exports.getUsersByCity = (city) => {
     return db.query(
@@ -76,7 +85,15 @@ module.exports.getUser = (userId) => {
         [userId]
     );
 };
-
+module.exports.update_useresTableWithoutPW = (first, last, email, user_id) => {
+    return db.query(
+        `UPDATE users
+        SET first=$1, last=$2, email=$3,
+        WHERE id=$4;
+        `,
+        [first, last, email, user_id]
+    );
+};
 module.exports.edit_usersTable = (
     first,
     last,
@@ -95,10 +112,10 @@ module.exports.edit_usersTable = (
 
 module.exports.edit_profilesTable = (age, city, homepage, user_id) => {
     return db.query(
-        `INSERT INTO users_profile(age, city, homepage, user_id)
+        `INSERT INTO profiles(age, city, homepage, user_id)
         VALUES ($1, $2, $3, $4)  
         ON CONFLICT (user_id)
-        DO UPDATE SET age=$1, city=$2, url=$3, user_id=$4;
+        DO UPDATE SET age=$1, city=$2, homepage=$3, user_id=$4;
         `,
         [age || null, city || null, homepage || null, user_id]
     );

@@ -1,18 +1,19 @@
-<form method="POST">
+<form id="edit_form" method="POST">
+    <h3>Update your information</h3>
 
-    <label for="firstName">First Name</label>
-    <input type="text" id="first" name="first" value="{{first}}" />
-    <label for="lastName">Last Name</label>
-    <input type="text" id="lastName" name="lastName" value="{{last}}" />
+    <label for="first">First Name</label>
+    <input type="text" id="first" name="first" placeholder="{{first}}" />
+    <label for="last">Last Name</label>
+    <input type="text" id="last" name="last" placeholder="{{last}}" />
     <label for="emailAddress">Email Address</label>
     <input
         type="email"
         id="emailAddress"
-        name="emailAddress"
-        value="{{email}}"
+        name="email"
+        placeholder="{{email}}"
     />
-    <label for="userPassword">Password</label>
-    <input id="userPassword" type="password" name="userPassword" />
+    <label for="password">Password</label>
+    <input id="password" type="password" name="password" />
     <label for="age">Age</label>
     <input
         type="number"
@@ -20,10 +21,10 @@
         name="age"
         max="120"
         min="16"
-        value="{{age}}"
+        placeholder="{{age}}"
     />
     <label for="city">City</label>
-    <input type="text" id="city" name="city" value="{{city}}" />
+    <input type="text" id="city" name="city" placeholder="{{city}}" />
     <label for="homepage">Homepage</label>
     <input
         type="text"
