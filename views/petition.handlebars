@@ -1,12 +1,27 @@
-<form method="post">
-    <input type="hidden" name="hiddenInput" id="hiddenInput" />
-    <div class="canvas">
-        <canvas id="canvas" width="250px" height="100px"></canvas>
+<body id="petition_body">
+
+    <form method="post">
+        <input type="hidden" name="hiddenInput" id="hiddenInput" />
+        <div class="canvas">
+            <canvas id="canvas" width="250px" height="100px"></canvas>
+        </div>
+
+        <button id="pet_button" type="submit" name="subBtn">Submit</button>
+
+    </form>
+    <h3>{{error}}</h3>
+    <div class="petition_info">
+        <h2>We want a doggy day-care, now !!</h2>
+        <div class="info">
+            <p>
+                Our doggies have to stay at home all day while many of us work.
+                There are plenty of day-cares for humans, but the few day-care
+                centres for dogs are crowded! Every dog should have a right to
+                have a place at a centre that takes care of the dog while the
+                owner is at work earning money for dog food! What do we want?
+                DOGGY DAY-CARE !! When do we want it? NOW! Sign here !</p>
+        </div>
     </div>
-
-    <button id="pet_button" type="submit" name="subBtn">Submit</button>
-
-</form>
-<h3>{{error}}</h3>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="./script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="./script.js"></script>
+</body>

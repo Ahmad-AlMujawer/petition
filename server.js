@@ -39,11 +39,14 @@ app.use(requireLoggedInUser);
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////     ROUTES      ///////////////////////////
 //////////////////////////////////////////////////////////////////////////
+
 app.get("/", (req, res) => {
     if (req.session.sigId) {
         res.redirect("/petiton");
+        return;
     } else {
-        res.redirect("/register");
+        res.redirect("/home");
+        return;
     }
 });
 
@@ -132,28 +135,17 @@ app.get("/profile", requireNoSignature, (req, res) => {
 });
 
 app.post("/profile", requireNoSignature, (req, res) => {
-    let { age, city, homepage } = req.body;
+    const { age, city, homepage } = req.body;
     const userId = req.session.userId;
     console.log(("req.session", req.session));
-    // if (homepage == "") {
-    //     homepage = null;
-    // } else if (
-    //     !homepage.startsWith("https://") ||
-    //     !homepage.startsWith("http://")
-    // ) {
-    //     return res.render("profile", {
-    //         layout: "main",
-    //         error: "URL NOT VALID",
-    //     });
-    // }
     if (req.body.homepage && !req.body.homepage.startsWith("http")) {
         return res.render("profile", {
             layout: "main",
             error: "Your homepage should start with 'https://'. Please try again.",
         });
     }
-    return db
-        .addProfile(age, city, homepage, userId)
+
+    db.addProfile(age, city, homepage, userId)
         .then(() => {
             res.redirect("/petition");
         })

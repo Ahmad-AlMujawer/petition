@@ -9,6 +9,11 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
+#petition_body {
+    background: url("/images/petiton_title.jpg");
+    background-size: contain;
+    background-repeat: repeat-x;
+}
 #thanks_body {
     background: url("/images/thanks.jpg");
     background-size: cover;
@@ -110,4 +115,22 @@ button:hover {
     display: grid;
     justify-content: center;
     text-align: center;
+}
+.petition_info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    color: aliceblue;
+}
+.petition_info h2 {
+    font-size: 35px;
+}
+
+.info {
+    line-height: 40px;
+    font-size: x-large;
+    color: aliceblue;
+}
+span {
+    text-decoration: underline;
 }
