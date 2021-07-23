@@ -1,27 +1,28 @@
 <form id="edit_form" method="POST">
     <h3>Update your information</h3>
 
+    <h2 "style= text-transform: uppercase">{{error}}</h2>
     <label for="first">First Name</label>
-    <input type="text" id="first" name="first" placeholder="{{first}}" />
+    <input type="text" id="first" name="first" value="{{first}}" />
     <label for="last">Last Name</label>
-    <input type="text" id="last" name="last" placeholder="{{last}}" />
+    <input type="text" id="last" name="last" value="{{last}}" />
     <label for="emailAddress">Email Address</label>
     <input
         type="email"
         id="emailAddress"
         name="email"
-        placeholder="{{email}}"
+        value="{{email}}"
     />
     <label for="password">Password</label>
     <input id="password" type="password" name="password" />
-    <label for="age">Age</label>
+    <label for="age" >Age</label>
     <input
         type="number"
         id="age"
         name="age"
         max="120"
         min="16"
-        placeholder="{{age}}"
+        value="{{age}}"
     />
     <label for="city">City</label>
     <input type="text" id="city" name="city" placeholder="{{city}}" />

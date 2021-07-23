@@ -37,7 +37,7 @@ app.use(
 app.use(express.static("./puplic"));
 app.use(requireLoggedInUser);
 //////////////////////////////////////////////////////////////////////////
-//////////////////////////     ROUTES      ///////////////////////////
+//////////////////////////     ROUTES      ///////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
 app.get("/", (req, res) => {
@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
         res.redirect("/petiton");
         return;
     } else {
-        res.redirect("/home");
+        res.redirect("/register");
         return;
     }
 });
@@ -66,6 +66,7 @@ app.post("/register", requireLoggedOutUser, (req, res) => {
                     req.session.userId = rows[0].id;
 
                     res.redirect("/profile");
+                    return;
                 })
 
                 .catch((err) => {
@@ -104,8 +105,10 @@ app.post("/login", requireLoggedOutUser, (req, res) => {
 
                             if (req.session.sigId) {
                                 res.redirect("/thanks");
+                                return;
                             } else {
                                 res.redirect("/petition");
+                                return;
                             }
                         } else {
                             res.render("login", {
@@ -168,6 +171,12 @@ app.get("/edit", (req, res) => {
     });
 });
 app.post("/edit", (req, res) => {
+    if (req.body.homepage && !req.body.homepage.startsWith("http")) {
+        return res.render("edit", {
+            layout: "main",
+            error: "Your homepage should start with 'https://'. Please try again.",
+        });
+    }
     if (req.body.password != "") {
         hash(req.body.password).then((hashed) => {
             // console.log("body: ", req.body);
@@ -210,6 +219,7 @@ app.post("/edit", (req, res) => {
     )
         .then(() => {
             res.redirect("/petition");
+            return;
         })
         .catch((err) => {
             console.log("error: ", err);
@@ -239,6 +249,7 @@ app.get("/thanks", requireSignature, (req, res) => {
             .catch((err) => console.log("err in GET /thanks:", err));
     } else {
         res.redirect("/petition");
+        return;
     }
 });
 
@@ -249,6 +260,7 @@ app.post("/thanks", (req, res) => {
             .then(() => {
                 req.session.sigId = null;
                 res.redirect("/petition");
+                return;
             })
             .catch((err) => {
                 console.log("error in deleteSignature", err);
@@ -258,6 +270,7 @@ app.post("/thanks", (req, res) => {
             });
     } else if (editProfile === "") {
         res.redirect("/edit");
+        return;
     }
 });
 
@@ -274,6 +287,7 @@ app.post("/petition", requireNoSignature, (req, res) => {
         .then(({ rows }) => {
             req.session.sigId = rows[0].id;
             res.redirect("/thanks");
+            return;
         })
         .catch((err) => {
             res.render("petition", {
@@ -299,6 +313,7 @@ app.get("/signers", requireSignature, (req, res) => {
             .catch((err) => console.log("err in GET /signers:", err));
     } else {
         res.redirect("/petition");
+        return;
     }
 });
 
@@ -323,6 +338,7 @@ app.get("/signers/:city", requireSignature, (req, res) => {
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/register");
+    return;
 });
 
 //-------------------------------------------------------------
