@@ -50,7 +50,7 @@ app.get("/", (req, res) => {
     }
 });
 
-//-------------------------------------------------------------
+//--------------------------register-----------------------------------
 app.get("/register", requireLoggedOutUser, (req, res) => {
     res.render("register", {
         layout: "main",
@@ -82,7 +82,7 @@ app.post("/register", requireLoggedOutUser, (req, res) => {
             });
         });
 });
-//-------------------------------------------------------------
+//---------------------------login----------------------------------
 
 app.get("/login", requireLoggedOutUser, (req, res) => {
     res.render("login", {
@@ -129,7 +129,7 @@ app.post("/login", requireLoggedOutUser, (req, res) => {
     });
 });
 
-//-------------------------------------------------------------
+//----------------------------profile---------------------------------
 
 app.get("/profile", requireNoSignature, (req, res) => {
     res.render("profile", {
@@ -159,7 +159,7 @@ app.post("/profile", requireNoSignature, (req, res) => {
             });
         });
 });
-//-------------------------------------------------------------
+//---------------------------edit----------------------------------
 
 app.get("/edit", (req, res) => {
     const userId = req.session.userId;
@@ -229,7 +229,7 @@ app.post("/edit", (req, res) => {
         });
 });
 
-//-------------------------------------------------------------
+//---------------------------thanks----------------------------------
 
 app.get("/thanks", requireSignature, (req, res) => {
     console.log("get req to /thanks happend");
@@ -274,7 +274,7 @@ app.post("/thanks", (req, res) => {
     }
 });
 
-//-------------------------------------------------------------
+//--------------------------petition-----------------------------------
 
 app.get("/petition", requireNoSignature, (req, res) => {
     console.log("get req to /petition happend");
@@ -297,7 +297,7 @@ app.post("/petition", requireNoSignature, (req, res) => {
         });
 });
 
-//-------------------------------------------------------------
+//--------------------------signers-----------------------------------
 
 app.get("/signers", requireSignature, (req, res) => {
     console.log("get req to /signers happend");
