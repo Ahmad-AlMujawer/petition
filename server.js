@@ -162,7 +162,7 @@ app.post("/profile", requireNoSignature, (req, res) => {
                 error: "Please try again!",
             });
         });
-};);
+});
 //-------------------------------------------------------------
 
 app.get("/edit", (req, res) => {
@@ -181,10 +181,10 @@ app.post("/edit", (req, res) => {
             error: "Your homepage should start with 'https://'. Please try again.",
         });
     }
-    let ageInt = parseInt(age);;
-    if(isNaN(ageInt)){
+    let ageInt = parseInt(req.body.age);
+    if (isNaN(ageInt)) {
         ageInt = null;
-    };
+    }
     if (req.body.password != "") {
         hash(req.body.password).then((hashed) => {
             // console.log("body: ", req.body);
