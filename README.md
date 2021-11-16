@@ -1,4 +1,4 @@
 # petition
 <p> You can see the project
-  [here](https://dog-petition.herokuapp.com/){:target="_blank" rel="noopener"}.
+  <a href="https://dog-petition.herokuapp.com/" target="_blank">here</a>
 </p>
